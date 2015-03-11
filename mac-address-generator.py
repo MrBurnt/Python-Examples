@@ -85,5 +85,4 @@ while(j <int(inputJ)):
     printMacAddress2(macAddress)
 
 
-
                 
