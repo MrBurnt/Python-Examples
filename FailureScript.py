@@ -61,10 +61,14 @@ def findMinMaxStep(file):
                     words = line.split()
                     A_min_index = words.index('far:') + 1
                     A_max_index =  A_min_index + 2
-                    A_biggest_step = A_min_index + 5
+                    
+                    A_biggest_step_index = A_min_index + 5
 
+                    
                     A_min = int(float(words[A_min_index]))
                     A_max = int(float(words[A_max_index]))
+
+                    A_biggest_step = int(float(words[A_biggest_step_index]))
 
                 if('MinMax temp seen:' in line): #the exit condition, we have gone too far
                     return A_min, A_max, B_min, B_max
@@ -77,10 +81,12 @@ def findMinMaxStep(file):
                     words = line.split()
                     B_min_index = words.index('far:') + 1
                     B_max_index =  B_min_index + 2
-                    B_biggest_step = B_min_index + 5
+                    B_biggest_step_index = B_min_index + 5
 
                     B_min = int(float(words[B_min_index]))
                     B_max = int(float(words[B_max_index]))
+
+                    B_biggest_step = int(float(words[B_biggest_step_index]))
                 if('MinMax temp seen:' in line): #the exit condition, we have gone too far
                     return A_min, A_max, B_min, B_max
 
