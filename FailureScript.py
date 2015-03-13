@@ -121,8 +121,15 @@ def find_current(file):
             A_on = int(values[0])
             B_on = int(values[1])
             SEC_on = int(values[3])
-            #print(A_on, B_on, SEC_on)
-            return A_on, B_on, SEC_on
+
+            temp_store = values[4].split('(')
+            temp = temp_store[1]
+            #print(temp_store)
+            temp = temp.rstrip(')')
+           # print(temp)
+            temp_store = int(temp)
+           # print(temp)
+            return A_on, B_on, SEC_on, temp
         if('Current ADC values, grid on:' in line): #early exit criteria
             return None, None, None
 
@@ -175,13 +182,15 @@ class Unit:
         self.SEC_off = None
         self.SEC_on = None
 
+        self.temp_current = None
+
         self.grid_A_debounce = None
         self.grid_B_debounce = None
 
     def __str__(self): #this is called when the class is converted to string using str(instance)
-        return (str(self.grid_state) + ';' + str(self.battery_record) +';' + str(self.grid_A_Min)  +';' + str(self.grid_A_Max) +';' + str(self.grid_A_Step) +';'  +  str(self.grid_A_off)   + ';' + str(self.grid_A_current)  +';' + str(self.grid_B_Min)  + ';'+ str(self.grid_B_Max) + ';'+ str(self.grid_B_Step) + ';' +  str(self.grid_B_off)  + ';' +  str(self.grid_B_current) + ';' + str(self.SEC_off)  + ';' + str(self.SEC_on)  + ';' + str(self.grid_A_debounce) + ';' + str(self.grid_B_debounce)+';' + str(self.product) + ';' + str(self.note) + ';'+ str(self.date)) + ';'
+        return (str(self.grid_state) + ';' + str(self.battery_record) +';' + str(self.grid_A_Min)  +';' + str(self.grid_A_Max) +';' + str(self.grid_A_Step) +';'+ str(self.grid_B_Min)  + ';'+ str(self.grid_B_Max) + ';'+ str(self.grid_B_Step) + ';' +  str(self.grid_A_off)  +';'+ str(self.grid_B_off)  + ';'+ str(self.SEC_off) + ';' + str(self.grid_A_current) + ';' +  str(self.grid_B_current) + ';'  + str(self.SEC_on) +';' +str(self.temp_current) + ';' + str(self.grid_A_debounce) + ';' + str(self.grid_B_debounce)+';' + str(self.product) + ';' + str(self.note) + ';'+ str(self.date)) + ';'
 
-read_file = open('fails.txt', 'r')
+read_file = open('fails.txt', 'r', encoding='utf8')
 write_file = open('semicolon_delimited_fails.txt', 'w')
 #print(read_file.name)
 
@@ -210,6 +219,8 @@ current_unit.SEC_on = 'SEC Current'
 
 current_unit.grid_A_debounce = 'Historic A Failure'
 current_unit.grid_B_debounce = 'Historic B Failure'
+
+current_unit.temp_current = 'Current Temperature'
 
 current_unit.product = 'Product'
 current_unit.note = 'Note'
@@ -249,6 +260,7 @@ while(findStart(read_file)):
     current_unit.grid_A_current = grid_on_values[0]
     current_unit.grid_B_current = grid_on_values[1]
     current_unit.SEC_on = grid_on_values[2]
+    current_unit.temp_current = grid_on_values[3]
     
     debounce = check_debounce(read_file)
     current_unit.grid_A_debounce = str(debounce[0])
