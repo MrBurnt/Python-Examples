@@ -1,4 +1,4 @@
-#
+#! python3
 #
 # regular expression lesson from how to automate the boring stuff
 #
@@ -80,7 +80,8 @@ There are patterns for the prefixes, we can work out the length of the remaining
 # .   -wild card character, could be anything
 
 # YOU CAN MAKE YOUR OWN CLASSES!!!
-# vowelRegex = re.compile(r'[aeiouAEIOU]') don't need |
+# vowelRegex = re.compile(r'[aeiouAEIOU]+[a-zA-Z0-9_.+-]+') don't need |
+# 		vowelRegex.search(string)
 # letterRegex = re.compile(r'[a-zA-Z]') can use ranges
 # nonLetterRegex = re.compile(r'[^a-zA-Z]') "^" shows every text character that isn't a letter
 
@@ -103,8 +104,12 @@ There are patterns for the prefixes, we can work out the length of the remaining
 # object.findall() --finds them all
 import re, pprint
 
-#search
-areaCodes_regex = re.compile(r'((03|04|06|09|02(01|02|03|04|05|06|1|2|3|4|5|6|7|8|80|84|85|89|9|96))\D{,2}(\d\d\d\d\d\d(\d){,2}))')
+#search, using the VERBOSE option I can add comments and it ignores white spaces, others there as reference
+areaCodes_regex = re.compile(r'''((03|04|06|09|   #all the land line area codes
+02(01|02|03|04|05|06|1|2|3|4|5|6|7|8|80|84|85|89|9|96))  #all the mobile phone digit codes start with 02, then there are some options
+\D{,2} 					#something non numeric that goes in the middle between the area code and main number, between zero and 2 characters
+(\d\d\d\d\d\d(\d){,2}))	#the number could be 6 to 8 digits long
+''', re.VERBOSE | re.DOTALL | re.IGNORECASE)
 
 #text string
 message='Call me on (021) 1234567, or 021-1234567. If you want to \'have fun\' call me at home on 09x623456\nI tell people I don\'t like a fake phone number, 04 1234567891 or 02212345.\nMy old number was 0280-1234567.'
@@ -114,7 +119,7 @@ print(message)
 match_object = areaCodes_regex.findall(message)
 
 #check if I found anything then print it or else a message
-if match_object != None:
+if match_object != None: 
 	for find in match_object:
 		print(find[1] + ' ' + find[3])
 else:
