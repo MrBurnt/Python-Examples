@@ -1,4 +1,4 @@
-Small-Tools
+Python Examples
 ===========
 
 Collection of small programs I needed to help me automate tasks
