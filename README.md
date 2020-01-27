@@ -1,4 +1,4 @@
 Python Examples
 ===========
 
-Collection of useful code snippits
+Collection of useful code
